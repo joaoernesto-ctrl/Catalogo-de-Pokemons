@@ -2,11 +2,17 @@ const pokemonList = document.querySelector("#pokemonList");
 const headerButtons = document.querySelectorAll(".btn-header");
 let URL = "https://pokeapi.co/api/v2/pokemon/";
 
-for (let i = 1; i <= 151; i++) {
-    fetch(URL + i)
-        .then(async (response) => await response.json())
-        .then(async (data) => await mostrarPokemon(data))
+async function carregarPokemons() {
+    pokemonList.innerHTML = "";
+
+    for (let i = 1; i <= 151; i++) {
+        const response = await fetch(URL + i);
+        const data = await response.json();
+        mostrarPokemon(data);
+    }
 }
+
+carregarPokemons()
 
 function mostrarPokemon(poke) {
     let tipos = poke.types.map((type) => `<p class="${type.type.name} tipo">${type.type.name}</p>`);
@@ -59,5 +65,3 @@ headerButtons.forEach(boton => boton.addEventListener("click", (event) => {
             })
     }
 }));
-
-// O codigo por motivo espontaneo tende a disordem, e eu nao sei o motivo.
